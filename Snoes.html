@@ -99,17 +99,25 @@ video{
 
 .episode{
     background:#1c1c1c;
+    border:none;
+    color:white;
     border-radius:14px;
     padding:18px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:12px;
+    width:100%;
+    cursor:pointer;
+    text-align:left;
 }
 
+.episode:hover{
+    background:#2a2a2a;
+}
 
-.locked{
-    opacity:.45;
+.episode.active{
+    background:#2e6bff;
 }
 
 
@@ -139,9 +147,9 @@ SNOES.
 
 <div class="hero">
 
-<h1>Aflevering 1 : De Rugzak </h1>
+<h1 id="heroTitle">Aflevering 1 : De Rugzak</h1>
 
-<p>
+<p id="heroDescription">
 Een exclusieve serie gemaakt voor één speciale kijker ❤️
 </p>
 
@@ -153,7 +161,7 @@ Een exclusieve serie gemaakt voor één speciale kijker ❤️
 
 <div class="video-box" id="videoBox">
 
-<iframe 
+<iframe id="videoFrame"
 src="https://www.youtube.com/embed/6XY1dQC1er0?si=IYvEZBTuycXRdPBt"
 width="100%"
 height="300"
@@ -173,7 +181,7 @@ allowfullscreen>
 <h2>Afleveringen</h2>
 
 
-<div class="episode">
+<button class="episode active" id="episodeButton1" onclick="selectEpisode(1)">
 
 <span>
 Aflevering 1 : De Rugzak
@@ -183,21 +191,20 @@ Aflevering 1 : De Rugzak
 ▶
 </span>
 
-</div>
+</button>
 
 
-
-<div class="episode locked">
+<button class="episode" id="episodeButton2" onclick="selectEpisode(2)">
 
 <span>
-Volgende aflevering
+Aflevering 2 : Nieuwe aflevering
 </span>
 
 <span>
-🔒
+▶
 </span>
 
-</div>
+</button>
 
 
 
@@ -219,6 +226,19 @@ Wordt vervolgd... Ik zie je graag!! ❤️
 
 <script>
 
+const episodes = {
+    1: {
+        title: "Aflevering 1 : De Rugzak",
+        description: "Een exclusieve serie gemaakt voor één speciale kijker ❤️",
+        videoUrl: "https://www.youtube.com/embed/6XY1dQC1er0?si=IYvEZBTuycXRdPBt"
+    },
+    2: {
+        title: "Aflevering 2 : Het Onderzoek",
+        description: "Dat ik je mis!",
+        videoUrl: "https://www.youtube.com/embed/eDGDIMkvjjI?si=WvaMTQze8ETeG8JV"
+    }
+};
+
 function openVideo(){
 
     let video = document.getElementById("videoBox");
@@ -226,6 +246,24 @@ function openVideo(){
     video.style.display = "block";
 
 }
+
+function selectEpisode(episodeNumber){
+
+    const episode = episodes[episodeNumber];
+
+    document.getElementById("heroTitle").textContent = episode.title;
+    document.getElementById("heroDescription").textContent = episode.description;
+    document.getElementById("videoFrame").src = episode.videoUrl;
+
+    document.querySelectorAll(".episode").forEach(button => {
+        button.classList.toggle("active", button.id === `episodeButton${episodeNumber}`);
+    });
+
+    openVideo();
+
+}
+
+selectEpisode(1);
 
 </script>
 
